@@ -28,3 +28,28 @@ export function setState(changes) {
 export function setFilters(changes) {
   state = { ...state, filters: { ...state.filters, ...changes } };
 }
+
+// Add a transaction without mutating the array
+export function addTransaction(details) {
+  const newTransaction = { id: nextId, ...details };
+  nextId += 1;
+  state = { ...state, transactions: [...state.transactions, newTransaction] };
+}
+
+// Change some fields of one transaction: copy the object, overwrite changes
+export function updateTransaction(id, changes) {
+  state = {
+    ...state,
+    transactions: state.transactions.map((transaction) =>
+      transaction.id === id ? { ...transaction, ...changes } : transaction
+    ),
+  };
+}
+
+// Remove a transaction by id. filter() returns a new array.
+export function removeTransaction(id) {
+  state = {
+    ...state,
+    transactions: state.transactions.filter((transaction) => transaction.id !== id),
+  };
+}
