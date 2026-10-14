@@ -290,3 +290,56 @@ button:focus-visible {
     text-align: center;
     font-size: 0.85rem;
 }
+
+/* responsiveness */
+@media (max-width: 768px) {
+    .main-content {
+        width: 92%;
+        margin: 25px auto;
+    }
+
+    .header {
+        padding: 18px 4%;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card {
+        padding: 18px;
+    }
+
+    .transaction-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .dashboard-heading h2 {
+        font-size: 1.5rem;
+    }
+
+    #transaction-form,
+    #conversion-form {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card p {
+        font-size: 1.2rem;
+    }
+
+    .transaction-table th,
+    .transaction-table td {
+        padding: 10px 8px;
+    }
+}
