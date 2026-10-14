@@ -86,3 +86,56 @@ export function filterTransactions(transactions, filters = {}) {
 export function sortByNewest(transactions) {
   return [...transactions].sort((a, b) => b.date.localeCompare(a.date));
 }
+
+/**
+ * Check a transaction from the form.
+ * Returns an error message, or null when everything is fine.
+ */
+export function validateTransaction({ type, description, amount, category, date }) {
+  if (type !== 'income' && type !== 'expense') {
+    return 'Please choose a transaction type.';
+  }
+  if (!description || description.trim() === '') {
+    return 'Please enter a description.';
+  }
+  if (!Number.isFinite(amount) || amount <= 0) {
+    return 'Please enter an amount greater than 0.';
+  }
+  if (!category) {
+    return 'Please select a category.';
+  }
+  if (!date) {
+    return 'Please choose a date.';
+  }
+  return null;
+}
+
+/**
+ * Format a number as money, e.g. formatMoney(1234.5, 'USD') -> "US$1,234.50".
+ */
+export function formatMoney(amount, currency) {
+  try {
+    return new Intl.NumberFormat('en-KE', {
+      style: 'currency',
+      currency,
+    }).format(amount);
+  } catch {
+    // Unknown currency code: fall back to a plain format
+    return `${currency} ${amount.toFixed(2)}`;
+  }
+}
+
+/**
+ * Turn "2026-10-15" into a friendly date like "15 Oct 2026".
+ */
+export function formatDate(isoDate) {
+  const date = new Date(`${isoDate}T00:00:00`);
+  if (Number.isNaN(date.getTime())) {
+    return isoDate;
+  }
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
