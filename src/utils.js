@@ -62,3 +62,27 @@ export function calculateTotals(transactions, displayCurrency, rates) {
 
   return { ...totals, balance: totals.income - totals.expenses };
 }
+
+/**
+ * Filter transactions by search text, category and type.
+ * "all" means "do not filter on this field".
+ */
+export function filterTransactions(transactions, filters = {}) {
+  const { search = '', category = 'all', type = 'all' } = filters;
+  const text = search.trim().toLowerCase();
+
+  return transactions.filter((transaction) => {
+    const matchesText = transaction.description.toLowerCase().includes(text);
+    const matchesCategory = category === 'all' || transaction.category === category;
+    const matchesType = type === 'all' || transaction.type === type;
+    return matchesText && matchesCategory && matchesType;
+  });
+}
+
+/**
+ * Return a copy of the list with the newest dates first.
+ * The spread copy means the original array is not changed.
+ */
+export function sortByNewest(transactions) {
+  return [...transactions].sort((a, b) => b.date.localeCompare(a.date));
+}
