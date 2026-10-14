@@ -92,3 +92,19 @@ button:focus-visible {
     outline: 2px solid var(--text);
     outline-offset: 3px;
 }
+
+/* header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    padding: 20px 6%;
+    border-bottom: 1px solid var(--border);
+}
+
+.header h1 {
+    color: var(--accent);
+    font-size: 1.6rem;
+}
