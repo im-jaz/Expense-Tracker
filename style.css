@@ -169,3 +169,68 @@ button:focus-visible {
     font-weight: bold;
     overflow-wrap: anywhere;
 }
+
+/* panel */
+.panel {
+    margin-bottom: 25px;
+    padding: 24px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.panel > p {
+    margin-bottom: 18px;
+}
+
+
+/* =========================
+   7. FORMS
+========================= */
+
+#transaction-form,
+#conversion-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.form-group label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.form-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#cancel-edit {
+    color: var(--text);
+    background-color: var(--surface-hover);
+}
+
+#cancel-edit:hover {
+    background-color: var(--border);
+}
+
+#transaction-message,
+#exchange-status {
+    margin-top: 12px;
+    font-size: 0.9rem;
+}
+
+#converted-amount {
+    margin-top: 20px;
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
