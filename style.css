@@ -138,3 +138,34 @@ button:focus-visible {
     margin-bottom: 5px;
     font-size: 1.8rem;
 }
+
+/* overview */
+.summary-section {
+    margin-bottom: 30px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.summary-card {
+    padding: 22px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.summary-card h3 {
+    margin-bottom: 12px;
+    color: var(--text-muted);
+    font-weight: normal;
+}
+
+.summary-card p {
+    color: var(--text);
+    font-size: 1.35rem;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
