@@ -118,3 +118,101 @@ export function renderTransactions(transactions, displayCurrency, rates, handler
     el.list.appendChild(row);
   });
 }
+
+// ---------- Transaction form ----------
+
+export function readTransactionForm() {
+  return {
+    id: el.id.value === '' ? null : Number(el.id.value),
+    type: el.type.value,
+    description: el.description.value.trim(),
+    amount: Number(el.amount.value),
+    category: el.category.value,
+    date: el.date.value,
+  };
+}
+
+export function showFormMessage(message) {
+  el.formMessage.textContent = message;
+}
+
+// Today's date in the user's own time zone, as yyyy-mm-dd
+// (toISOString would use UTC and give yesterday's date after midnight in Kenya)
+function todayAsIso() {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+// Clear the form and go back to "add" mode
+export function resetForm() {
+  el.form.reset();
+  el.id.value = '';
+  el.date.value = todayAsIso();
+  el.saveBtn.textContent = 'Add Transaction';
+  el.cancelBtn.hidden = true;
+}
+
+// Put a transaction into the form and switch to "edit" mode
+export function fillFormForEdit(transaction) {
+  el.id.value = transaction.id;
+  el.type.value = transaction.type;
+  el.description.value = transaction.description;
+  el.amount.value = transaction.amount;
+  el.category.value = transaction.category;
+  el.date.value = transaction.date;
+  el.saveBtn.textContent = 'Save Changes';
+  el.cancelBtn.hidden = false;
+  el.formMessage.textContent = '';
+  el.description.focus();
+}
+
+// ---------- Currency converter ----------
+
+export function readConversionForm() {
+  return {
+    amount: Number(el.conversionAmount.value),
+    from: el.fromCurrency.value,
+    to: el.toCurrency.value,
+  };
+}
+
+export function showConversionResult(text) {
+  el.convertedAmount.textContent = text;
+}
+
+// ---------- Start-up and events ----------
+
+export function initUI(displayCurrency) {
+  el.displayCurrency.value = displayCurrency;
+  el.date.value = todayAsIso();
+}
+
+// Let main.js attach event listeners without exposing every element
+export function bindEvents(handlers) {
+  el.form.addEventListener('submit', (event) => {
+    event.preventDefault(); // stop the page from reloading
+    handlers.onSubmit();
+  });
+  el.cancelBtn.addEventListener('click', handlers.onCancelEdit);
+
+  el.displayCurrency.addEventListener('change', () =>
+    handlers.onCurrencyChange(el.displayCurrency.value)
+  );
+
+  el.search.addEventListener('input', () =>
+    handlers.onFilterChange({ search: el.search.value })
+  );
+  el.categoryFilter.addEventListener('change', () =>
+    handlers.onFilterChange({ category: el.categoryFilter.value })
+  );
+  el.typeFilter.addEventListener('change', () =>
+    handlers.onFilterChange({ type: el.typeFilter.value })
+  );
+
+  el.conversionForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    handlers.onConvert();
+  });
+}
