@@ -55,3 +55,66 @@ export function renderStatus(loading, error) {
     el.exchangeStatus.textContent = 'Live exchange rates loaded.';
   }
 }
+
+// ---------- Transactions table ----------
+
+// Helper: make a table cell with some text
+function makeCell(text) {
+  const cell = document.createElement('td');
+  cell.textContent = text; // textContent is safe from HTML injection
+  return cell;
+}
+
+// Helper: make a button for the Actions column
+function makeButton(label, ariaLabel, onClick) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = label;
+  button.setAttribute('aria-label', ariaLabel);
+  button.addEventListener('click', onClick);
+  return button;
+}
+
+// handlers = { onEdit(id), onDelete(id) }
+export function renderTransactions(transactions, displayCurrency, rates, handlers) {
+  el.list.innerHTML = '';
+  el.empty.hidden = transactions.length > 0;
+
+  transactions.forEach((transaction) => {
+    const converted = convertAmount(
+      transaction.amount,
+      BASE_CURRENCY,
+      displayCurrency,
+      rates
+    );
+    const sign = transaction.type === 'income' ? '+' : '-';
+
+    const row = document.createElement('tr');
+    row.append(
+      makeCell(transaction.description),
+      makeCell(transaction.category),
+      makeCell(formatDate(transaction.date))
+    );
+
+    // Amount: converted value, with the original amount as a tooltip
+    const amountCell = makeCell(
+      converted === null ? '—' : `${sign}${formatMoney(converted, displayCurrency)}`
+    );
+    amountCell.title = `${sign}${formatMoney(transaction.amount, BASE_CURRENCY)}`;
+    row.appendChild(amountCell);
+
+    // Actions: edit and delete
+    const actions = document.createElement('td');
+    actions.append(
+      makeButton('Edit', `Edit ${transaction.description}`, () =>
+        handlers.onEdit(transaction.id)
+      ),
+      makeButton('Delete', `Delete ${transaction.description}`, () =>
+        handlers.onDelete(transaction.id)
+      )
+    );
+    row.appendChild(actions);
+
+    el.list.appendChild(row);
+  });
+}
