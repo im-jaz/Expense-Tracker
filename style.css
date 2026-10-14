@@ -183,11 +183,7 @@ button:focus-visible {
     margin-bottom: 18px;
 }
 
-
-/* =========================
-   7. FORMS
-========================= */
-
+/* forms */
 #transaction-form,
 #conversion-form {
     display: grid;
@@ -233,4 +229,56 @@ button:focus-visible {
     color: var(--accent);
     font-size: 1.2rem;
     font-weight: bold;
+}
+
+/* transaction filters */
+.transaction-filters {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+/* transaction table */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.transaction-table th,
+.transaction-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.transaction-table th {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: normal;
+}
+
+.transaction-table td {
+    font-size: 0.9rem;
+}
+
+.transaction-table tbody tr:hover {
+    background-color: var(--surface-hover);
+}
+
+.transaction-table button {
+    margin: 2px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+}
+
+#transaction-empty {
+    padding: 20px 0;
+    text-align: center;
 }
