@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART FUND</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+     <!-- Header -->
+    <header class="header">
+        <h1>SMARTFUND</h1>
+
+        <div class="currency-selector">
+            <label for="display-currency">Currency:</label>
+            <select id="display-currency" name="display-currency">
+                <option value="KES">KES</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+            </select>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <!-- Dashboard heading -->
+        <section class="dashboard-heading">
+            <h3>Track Your Expenses The Smart Way With SmartFund</h3>
+        </section>
+
+        <!-- Summary cards -->
+        <section class="summary-section">
+            <h2>Overview</h2>
+
+            <div class="summary-grid">
+                <article class="summary-card">
+                    <h3>Total Balance</h3>
+                    <p id="total-balance">KES 0.00</p>
+                </article>
+
+                <article class="summary-card">
+                    <h3>Total Income</h3>
+                    <p id="total-income">KES 0.00</p>
+                </article>
+
+                <article class="summary-card">
+                    <h3>Total Expenses</h3>
+                    <p id="total-expenses">KES 0.00</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Add transaction form -->
+        <section class="panel">
+            <h2>Make a Transaction</h2>
+
+            <form id="transaction-form">
+                <input
+                    type="hidden"
+                    id="transaction-id"
+                    name="transaction-id"
+                >
+
+                <div class="form-group">
+                    <label for="transaction-type">Transaction Type</label>
+                    <select id="transaction-type" name="type" required>
+                        <option value="expense">Expense</option>
+                        <option value="income">Income</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transaction-description">Description</label>
+                    <input
+                        type="text"
+                        id="transaction-description"
+                        name="description"
+                        placeholder="e.g. Groceries"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="transaction-amount">Amount (KES)</label>
+                    <input
+                        type="number"
+                        id="transaction-amount"
+                        name="amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="Enter amount"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="transaction-category">Category</label>
+                    <select id="transaction-category" name="category" required>
+                        <option value="">Select a category</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transaction-date">Date</label>
+                    <input
+                        type="date"
+                        id="transaction-date"
+                        name="date"
+                        required
+                    >
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" id="save-transaction">
+                        Add Transaction
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancel-edit"
+                        hidden
+                    >
+                        Cancel
+                    </button>
+                </div>
+
+                <p id="transaction-message" role="status"></p>
+            </form>
+        </section>
+
+        <!-- Transactions list -->
+        <section class="panel">
+            <h2>My Transactions</h2>
+
+            <div class="transaction-filters">
+                <div class="form-group">
+                    <label for="transaction-search">Search</label>
+                    <input
+                        type="search"
+                        id="transaction-search"
+                        placeholder="Search transactions..."
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="category-filter">Category</label>
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="type-filter">Type</label>
+                    <select id="type-filter">
+                        <option value="all">All Transactions</option>
+                        <option value="expense">Expenses</option>
+                        <option value="income">Income</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Description</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="transaction-list">
+                        <!-- JavaScript will add transactions here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <p id="transaction-empty">
+                No transactions yet. Add your first transaction above.
+            </p>
+        </section>
+
+        <!-- Currency converter -->
+        <section class="panel">
+            <h2>Currency Converter</h2>
+            <p>Convert an amount using current exchange rates.</p>
+
+            <form id="conversion-form">
+                <div class="form-group">
+                    <label for="conversion-amount">Amount</label>
+                    <input
+                        type="number"
+                        id="conversion-amount"
+                        min="0"
+                        step="0.01"
+                        placeholder="Enter amount"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="from-currency">From</label>
+                    <select id="from-currency" required>
+                        <option value="KES">KES</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="to-currency">To</label>
+                    <select id="to-currency" required>
+                        <option value="USD">USD</option>
+                        <option value="KES">KES</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
+
+                <button type="submit">Convert</button>
+            </form>
+
+            <p id="converted-amount" aria-live="polite">
+                Converted amount will appear here.
+            </p>
+
+            <p id="exchange-status" role="status"></p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 SMARTFUND. All Rights Reserved</p>
+    </footer>
+
+    
+</body>
+</html>
