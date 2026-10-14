@@ -33,3 +33,32 @@ export function convertAmount(amount, from, to, rates) {
   }
   return (amount / rateFrom) * rateTo;
 }
+
+/**
+ * Add up income and expenses in the display currency.
+ * Transactions are stored in KES and converted here.
+ * Transactions we cannot convert are skipped.
+ * Returns { income, expenses, balance }.
+ */
+export function calculateTotals(transactions, displayCurrency, rates) {
+  const totals = transactions.reduce(
+    (sum, transaction) => {
+      const converted = convertAmount(
+        transaction.amount,
+        BASE_CURRENCY,
+        displayCurrency,
+        rates
+      );
+      if (converted === null) {
+        return sum;
+      }
+      // Spread operator: copy the old totals, change only one field
+      return transaction.type === 'income'
+        ? { ...sum, income: sum.income + converted }
+        : { ...sum, expenses: sum.expenses + converted };
+    },
+    { income: 0, expenses: 0 }
+  );
+
+  return { ...totals, balance: totals.income - totals.expenses };
+}
