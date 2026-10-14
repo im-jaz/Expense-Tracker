@@ -108,3 +108,17 @@ button:focus-visible {
     color: var(--accent);
     font-size: 1.6rem;
 }
+
+.currency-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.currency-selector label {
+    color: var(--text-muted);
+}
+
+.currency-selector select {
+    width: auto;
+}
