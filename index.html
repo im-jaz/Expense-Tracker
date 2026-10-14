@@ -52,6 +52,91 @@
                 </article>
             </div>
         </section>
+
+        <!-- Add transaction form -->
+        <section class="panel">
+            <h2>Make a Transaction</h2>
+
+            <form id="transaction-form">
+                <input
+                    type="hidden"
+                    id="transaction-id"
+                    name="transaction-id"
+                >
+
+                <div class="form-group">
+                    <label for="transaction-type">Transaction Type</label>
+                    <select id="transaction-type" name="type" required>
+                        <option value="expense">Expense</option>
+                        <option value="income">Income</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transaction-description">Description</label>
+                    <input
+                        type="text"
+                        id="transaction-description"
+                        name="description"
+                        placeholder="e.g. Groceries"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="transaction-amount">Amount (KES)</label>
+                    <input
+                        type="number"
+                        id="transaction-amount"
+                        name="amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="Enter amount"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="transaction-category">Category</label>
+                    <select id="transaction-category" name="category" required>
+                        <option value="">Select a category</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transaction-date">Date</label>
+                    <input
+                        type="date"
+                        id="transaction-date"
+                        name="date"
+                        required
+                    >
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" id="save-transaction">
+                        Add Transaction
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancel-edit"
+                        hidden
+                    >
+                        Cancel
+                    </button>
+                </div>
+
+                <p id="transaction-message" role="status"></p>
+            </form>
+        </section>
     
 </body>
 </html>
