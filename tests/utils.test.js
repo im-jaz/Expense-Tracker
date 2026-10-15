@@ -98,3 +98,45 @@ describe('filterTransactions', () => {
     expect(filterTransactions(transactions, { category: 'Bills' })).toEqual([]);
   });
 });
+
+describe('sortByNewest', () => {
+  test('puts the newest date first without changing the original', () => {
+    const sorted = sortByNewest(transactions);
+    expect(sorted.map((t) => t.id)).toEqual([2, 3, 1]);
+    expect(transactions.map((t) => t.id)).toEqual([1, 2, 3]);
+  });
+});
+
+describe('validateTransaction', () => {
+  const valid = {
+    type: 'expense',
+    description: 'Lunch',
+    amount: 300,
+    category: 'Food',
+    date: '2026-10-15',
+  };
+
+  test('returns null for a valid transaction', () => {
+    expect(validateTransaction(valid)).toBeNull();
+  });
+
+  test('rejects an empty description', () => {
+    expect(validateTransaction({ ...valid, description: '   ' })).toMatch(/description/i);
+  });
+
+  test('rejects zero, negative and missing amounts', () => {
+    expect(validateTransaction({ ...valid, amount: 0 })).toMatch(/amount/i);
+    expect(validateTransaction({ ...valid, amount: -5 })).toMatch(/amount/i);
+    expect(validateTransaction({ ...valid, amount: NaN })).toMatch(/amount/i);
+  });
+
+  test('rejects a missing category', () => {
+    expect(validateTransaction({ ...valid, category: '' })).toMatch(/category/i);
+  });
+});
+
+describe('formatMoney', () => {
+  test('falls back gracefully for an invalid currency code', () => {
+    expect(formatMoney(5, 'NOPE!')).toBe('NOPE! 5.00');
+  });
+});
