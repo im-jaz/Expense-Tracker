@@ -44,3 +44,57 @@ describe('convertAmount', () => {
     expect(convertAmount(10, 'KES', 'USD', {})).toBeNull();
   });
 });
+
+describe('calculateTotals', () => {
+  test('adds income and expenses and works out the balance', () => {
+    const totals = calculateTotals(transactions, 'KES', { KES: 1 });
+    expect(totals).toEqual({ income: 50000, expenses: 2500, balance: 47500 });
+  });
+
+  test('converts totals into the display currency', () => {
+    // 50000 KES = 500 USD, 2500 KES = 25 USD
+    const totals = calculateTotals(transactions, 'USD', rates);
+    expect(totals).toEqual({ income: 500, expenses: 25, balance: 475 });
+  });
+
+  test('returns zeros for an empty list', () => {
+    expect(calculateTotals([], 'KES', { KES: 1 })).toEqual({
+      income: 0,
+      expenses: 0,
+      balance: 0,
+    });
+  });
+
+  test('skips transactions when the rate is missing', () => {
+    expect(calculateTotals(transactions, 'GBP', rates)).toEqual({
+      income: 0,
+      expenses: 0,
+      balance: 0,
+    });
+  });
+});
+
+describe('filterTransactions', () => {
+  test('filters by category', () => {
+    const result = filterTransactions(transactions, { category: 'Food' });
+    expect(result).toHaveLength(1);
+    expect(result[0].description).toBe('Groceries');
+  });
+
+  test('filters by type', () => {
+    expect(filterTransactions(transactions, { type: 'expense' })).toHaveLength(2);
+  });
+
+  test('searches the description without caring about case', () => {
+    const result = filterTransactions(transactions, { search: 'BUS' });
+    expect(result.map((t) => t.id)).toEqual([3]);
+  });
+
+  test('returns everything when no filters are set', () => {
+    expect(filterTransactions(transactions)).toHaveLength(3);
+  });
+
+  test('returns an empty array when nothing matches', () => {
+    expect(filterTransactions(transactions, { category: 'Bills' })).toEqual([]);
+  });
+});
