@@ -143,3 +143,16 @@ function handleConvert() {
   }
   showConversionResult(`${formatMoney(amount, from)} = ${formatMoney(result, to)}`);
 }
+
+// ----- Start the app -----
+
+initUI(getState().displayCurrency);
+bindEvents({
+  onSubmit: handleSubmit,
+  onCancelEdit: handleCancelEdit,
+  onCurrencyChange: handleCurrencyChange,
+  onFilterChange: handleFilterChange,
+  onConvert: handleConvert,
+});
+loadRates();
+
