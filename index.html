@@ -13,6 +13,14 @@
     <header class="header">
         <h1>SMARTFUND</h1>
 
+        <nav class="navbar" aria-label="Main navigation">
+            <a href="#dashboard" class="active">Dashboard</a>
+            <a href="#overview">Overview</a>
+            <a href="#transactions">Transactions</a>
+            <a href="#add-transaction">Add Transaction</a>
+            <a href="#currency-converter">Currency Converter</a>
+       </nav>
+
         <div class="currency-selector">
             <label for="display-currency">Currency:</label>
             <select id="display-currency" name="display-currency">
@@ -32,7 +40,7 @@
         </section>
 
         <!-- Summary cards -->
-        <section class="summary-section">
+        <section class="summary-section" id="overview">
             <h2>Overview</h2>
 
             <div class="summary-grid">
@@ -54,7 +62,7 @@
         </section>
 
         <!-- Add transaction form -->
-        <section class="panel">
+        <section class="panel" id="add-transaction">
             <h2>Make a Transaction</h2>
 
             <form id="transaction-form">
@@ -139,7 +147,7 @@
         </section>
 
         <!-- Transactions list -->
-        <section class="panel">
+        <section class="panel" id="transactions">
             <h2>My Transactions</h2>
 
             <div class="transaction-filters">
@@ -200,7 +208,7 @@
         </section>
 
         <!-- Currency converter -->
-        <section class="panel">
+        <section class="panel" id="currency-converter"> 
             <h2>Currency Converter</h2>
             <p>Convert an amount using current exchange rates.</p>
 
