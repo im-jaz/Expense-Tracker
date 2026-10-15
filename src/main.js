@@ -69,3 +69,77 @@ async function loadRates() {
   }
   render();
 }
+
+// ----- Event handlers -----
+
+function handleSubmit() {
+  const { id, ...data } = readTransactionForm();
+
+  const problem = validateTransaction(data);
+  if (problem) {
+    showFormMessage(problem);
+    return;
+  }
+
+  let message;
+  if (id === null) {
+    addTransaction(data);
+    message = 'Transaction added.';
+  } else {
+    updateTransaction(id, data);
+    message = 'Transaction updated.';
+  }
+
+  setState({ editingId: null });
+  resetForm(); // clears the form (and the message), so show the message after
+  showFormMessage(message);
+  render();
+}
+
+function handleEdit(id) {
+  const transaction = getState().transactions.find((item) => item.id === id);
+  if (!transaction) return;
+  setState({ editingId: id });
+  fillFormForEdit(transaction);
+}
+
+function handleCancelEdit() {
+  setState({ editingId: null });
+  resetForm();
+  showFormMessage('');
+}
+
+function handleDelete(id) {
+  removeTransaction(id);
+  // If the deleted transaction was being edited, leave edit mode
+  if (getState().editingId === id) {
+    handleCancelEdit();
+  }
+  render();
+}
+
+function handleCurrencyChange(currency) {
+  setState({ displayCurrency: currency, rates: {} });
+  loadRates();
+}
+
+function handleFilterChange(changes) {
+  setFilters(changes);
+  render();
+}
+
+function handleConvert() {
+  const { amount, from, to } = readConversionForm();
+
+  if (!Number.isFinite(amount) || amount < 0) {
+    showConversionResult('Please enter a valid amount.');
+    return;
+  }
+
+  const result = convertAmount(amount, from, to, getState().rates);
+  if (result === null) {
+    showConversionResult('Exchange rates are not available right now. Please try again.');
+    return;
+  }
+  showConversionResult(`${formatMoney(amount, from)} = ${formatMoney(result, to)}`);
+}
