@@ -186,6 +186,14 @@ button:focus-visible {
     font-weight: normal;
 }
 
+#total-income {
+    color: var(--income);
+}
+
+#total-expenses {
+    color: var(--expense);
+}
+
 .summary-card p {
     color: var(--text);
     font-size: 1.35rem;
