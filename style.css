@@ -156,9 +156,10 @@ button:focus-visible {
     margin-bottom: 30px;
 }
 
-.dashboard-heading h3 {
+.dashboard-heading h4 {
     margin-bottom: 5px;
     font-size: 1.8rem;
+    color: var(--accent);
 }
 
 /* overview */
